@@ -1,5 +1,4 @@
 import os
-import argparse
 import sqlite3
 from datetime import datetime, timedelta
 from dataclasses import dataclass
@@ -45,6 +44,29 @@ class Task:
         return line + "\n"
 
 
+def calculate_total_work_hours_in_month():
+    # Get the current date
+    today = datetime.today()
+
+    # Get the first day of the month and the next month's first day
+    first_day_of_month = today.replace(day=1)
+    next_month = first_day_of_month.replace(month=today.month % 12 + 1, day=1)
+
+    # Calculate the total number of days in the current month
+    total_days_in_month = (next_month - first_day_of_month).days
+
+    # Initialize work hours
+    total_work_hours = 0
+
+    # Iterate through each day in the current month
+    for day in range(total_days_in_month):
+        current_day = first_day_of_month + timedelta(days=day)
+        if current_day.weekday() < 5:  # Monday to Friday are counted as workdays
+            total_work_hours += 8
+
+    return total_work_hours
+
+
 def is_weekday(date):
     return date.weekday() < 5  # Monday is 0 and Sunday is 6
 
@@ -74,7 +96,7 @@ def get_next_available_slot(start_datetime):
     return start_datetime
 
 
-def monthly_report(hours_worked):
+def monthly_report():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
@@ -103,6 +125,9 @@ def monthly_report(hours_worked):
     c.execute(query, (start_of_month_str, end_of_month_str))
     logs = c.fetchall()
     conn.close()
+
+    # Calculate total work hours in the month
+    hours_worked = calculate_total_work_hours_in_month()
 
     # Calculate duration per log
     log_size = len(logs)
@@ -161,13 +186,4 @@ def monthly_report(hours_worked):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("hours", type=int, help="Total number of hours worked")
-    args = parser.parse_args()
-
-    if args.hours:
-        total_hours_worked = args.hours
-        print("Total hours worked:", total_hours_worked)
-        monthly_report(total_hours_worked)
-    else:
-        print("No total hours provided.")
+    monthly_report()
