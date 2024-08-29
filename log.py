@@ -1,5 +1,5 @@
 import os
-
+import argparse
 import sqlite3
 from datetime import datetime
 from datetime import timedelta
@@ -32,14 +32,16 @@ def log_entry_for_the_day_each_work_hours_random_entry():
 
 
 def log_entry(message):
+    now = datetime.now()
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute(
         "INSERT INTO logs (timestamp, message) VALUES (?, ?)",
-        (datetime.now().isoformat(), message),
+        (now.isoformat(), message),
     )
     conn.commit()
     conn.close()
+    print(f"[{now.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 
 def delete_entry(id_):
@@ -59,4 +61,7 @@ def clear_db():
 
 
 if __name__ == "__main__":
-    log_entry_for_the_day_each_work_hours_random_entry()
+    parser = argparse.ArgumentParser(description="Task Logger")
+    parser.add_argument("message", type=str, help="The log message")
+    args = parser.parse_args()
+    log_entry(args.message)
