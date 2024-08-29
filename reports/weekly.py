@@ -36,6 +36,9 @@ def weekly_report():
     """
     c.execute(query, (start_of_week_str, end_of_week_str))
     logs = c.fetchall()
+    if len(logs) == 0:
+        print("No logs found for the current week.")
+        return
     conn.close()
 
     # Generate the report

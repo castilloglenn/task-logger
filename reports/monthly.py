@@ -125,7 +125,7 @@ def monthly_report():
     c.execute(query, (start_of_month_str, end_of_month_str))
     logs = c.fetchall()
     if len(logs) == 0:
-        print("No logs found in %s" % end_of_month.strftime("%B, %Y"))
+        print("No logs found in the current month.")
         return
     conn.close()
 
