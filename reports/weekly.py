@@ -21,9 +21,13 @@ def weekly_report():
     start_of_week_str = start_of_week.strftime("%Y-%m-%d 00:00:00")
     end_of_week_str = end_of_week.strftime("%Y-%m-%d 23:59:59")
     pretty_format = "%B %d, %Y"
-    start_pretty = start_of_week.strftime(pretty_format)
-    end_pretty = end_of_week.strftime(pretty_format)
-    print("Fetching logs between %s and %s" % (start_pretty, end_pretty))
+    print(
+        "Fetching logs between %s and %s"
+        % (
+            start_of_week.strftime(pretty_format),
+            end_of_week.strftime(pretty_format),
+        )
+    )
 
     # Execute the query
     query = """
@@ -35,9 +39,16 @@ def weekly_report():
     conn.close()
 
     # Generate the report
-    header = f"*Weekly Report ({start_pretty} - {end_pretty})*\n"
+    monday_of_week = (start_of_week + timedelta(days=1)).strftime(pretty_format)
+    friday_of_week = (end_of_week - timedelta(days=1)).strftime(pretty_format)
+    header = f"*Weekly Report ({monday_of_week} - {friday_of_week})*\n"
     logs_list = "\n".join([f"- {log[2]}" for log in logs])
     report = header + logs_list
+
+    # Display the report
+    print("\n" + "=" * 55)
+    print(report)
+    print("=" * 55 + "\n")
 
     # Copy the report to the clipboard
     pyperclip.copy(report)
