@@ -50,8 +50,7 @@ def is_weekday(date):
 
 
 def get_next_available_slot(start_datetime):
-    if start_datetime.hour >= 18:
-        start_datetime = start_datetime + timedelta(days=1)
+    if start_datetime.hour < 9:
         start_datetime = start_datetime.replace(
             hour=9, minute=0, second=0, microsecond=0
         )
@@ -59,7 +58,8 @@ def get_next_available_slot(start_datetime):
         start_datetime = start_datetime.replace(
             hour=13, minute=0, second=0, microsecond=0
         )
-    elif start_datetime.hour < 9:
+    elif start_datetime.hour >= 18:
+        start_datetime = start_datetime + timedelta(days=1)
         start_datetime = start_datetime.replace(
             hour=9, minute=0, second=0, microsecond=0
         )
@@ -113,10 +113,21 @@ def monthly_report(hours_worked):
     # Generate the report
     report = ""
     start_time = start_of_month.replace(hour=9, minute=0, second=0, microsecond=0)
+    excess_time = timedelta(hours=0)
 
     for log in logs:
         task_start = get_next_available_slot(start_time)
-        task_end = task_start + duration_per_log
+        task_end = task_start + duration_per_log + excess_time
+        if 12 <= task_end.hour < 13:
+            excess_time = task_end - task_end.replace(hour=12, minute=0, second=0)
+            task_end = task_end.replace(hour=12, minute=0, second=0)
+        elif task_end.hour >= 18:
+            excess_time = task_end - task_end.replace(hour=18, minute=0, second=0)
+            task_end = task_end.replace(hour=18, minute=0, second=0)
+        else:
+            excess_time = timedelta(hours=0)
+
+        duration = (task_end - task_start).total_seconds() / 3600
 
         # Create a Task object
         task = Task(
@@ -125,12 +136,12 @@ def monthly_report(hours_worked):
             finished_date=task_end,
             start_time=task_start,
             end_time=task_end,
-            estimated_duration=duration_per_log.total_seconds() / 3600,
-            actual_duration=duration_per_log.total_seconds() / 3600,
+            estimated_duration=duration / 8,
+            actual_duration=duration / 8,
             description=log[2],
             completion_grade="100.00%",
-            estimated_hours=duration_per_log.total_seconds() / 3600,
-            actual_hours=duration_per_log.total_seconds() / 3600,
+            estimated_hours=duration,
+            actual_hours=duration,
         )
 
         report += str(task)
