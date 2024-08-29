@@ -124,10 +124,18 @@ def monthly_report(hours_worked):
         elif task_end.hour >= 18:
             excess_time = task_end - task_end.replace(hour=18, minute=0, second=0)
             task_end = task_end.replace(hour=18, minute=0, second=0)
+        elif task_start.hour < 12 and task_end.hour >= 13:
+            excess_time = timedelta(hours=1)
         else:
             excess_time = timedelta(hours=0)
 
-        duration = (task_end - task_start).total_seconds() / 3600
+        duration = None
+        if task_start.hour < 12 and task_end.hour >= 13:
+            before_lunch = task_start.replace(hour=12, minute=0, second=0) - task_start
+            after_lunch = task_end - task_end.replace(hour=13, minute=0, second=0)
+            duration = (before_lunch + after_lunch).total_seconds() / 3600
+        else:
+            duration = (task_end - task_start).total_seconds() / 3600
 
         # Create a Task object
         task = Task(
