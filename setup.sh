@@ -1,9 +1,7 @@
 #!/bin/bash
 
-printf "\033[1;34m[INFO]\033[0m Setting up Task Logger..."
-
+# Get the directory of the current script
 script_dir=$(dirname "$0")
-printf "\n\033[1;34m[INFO]\033[0m Script directory: \033[1m%s\033[0m\n" "$script_dir"
 
 __combine_args() {
     combined_string=""
@@ -31,4 +29,4 @@ tl_monthlyreport() {
     python3 $script_dir/reports/monthly.py
 }
 
-printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete.\n\n"
+printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete. \033[1;90m(Location: $script_dir)\033[0m\n"
