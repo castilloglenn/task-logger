@@ -2,6 +2,8 @@ import os
 import sqlite3
 from datetime import datetime, timedelta
 
+import pyperclip
+
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "..", "worklog.db")
 
@@ -26,12 +28,16 @@ def monthly_report():
     WHERE timestamp BETWEEN ? AND ?
     """
     c.execute(query, (start_of_month_str, end_of_month_str))
-
     logs = c.fetchall()
     print("Number of logs:", len(logs))
-
     conn.close()
-    return logs
+
+    # Generate the report
+    report = "\n".join([log[2] for log in logs])
+
+    # Copy the report to the clipboard
+    pyperclip.copy(report)
+    print("Monthly report copied to clipboard (use Cmd+V to paste)")
 
 
 if __name__ == "__main__":
