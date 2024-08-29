@@ -11,20 +11,23 @@ db_path = os.path.join(repo_path, "worklog.db")
 def log_entry_for_the_day_each_work_hours_random_entry():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
+    weeks = 8
     days = 3
     hours = 8
-    for day in range(days):
-        for hour in range(1, hours):
-            c.execute(
-                "INSERT INTO logs (timestamp, message) VALUES (?, ?)",
-                (
+    for week in range(weeks):
+        for day in range(days):
+            for hour in range(1, hours):
+                d = week * 7 + day
+                c.execute(
+                    "INSERT INTO logs (timestamp, message) VALUES (?, ?)",
                     (
-                        datetime.now() - timedelta(days=day, hours=hours - hour)
-                    ).isoformat(),
-                    f"Worked for {hour} hours",
-                ),
-            )
-            conn.commit()
+                        (
+                            datetime.now() - timedelta(days=d, hours=hours - hour)
+                        ).isoformat(),
+                        f"Worked for {hour} hours",
+                    ),
+                )
+                conn.commit()
     conn.close()
 
 
