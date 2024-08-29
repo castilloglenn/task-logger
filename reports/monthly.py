@@ -25,7 +25,7 @@ class Task:
 
     def __str__(self):
         date_format = "%m/%d/%Y"
-        hours_format = "%I:%M:%S %p"
+        hours_format = "%I:%M %p"
         line = "\t".join(
             [
                 self.status,
