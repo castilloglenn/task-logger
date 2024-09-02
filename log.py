@@ -2,54 +2,37 @@ import os
 import argparse
 import sqlite3
 from datetime import datetime
-from datetime import timedelta
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "worklog.db")
 
 
-def log_entry_for_the_day_each_work_hours_random_entry():
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    weeks = 8
-    days = 3
-    hours = 8
-    for week in range(weeks):
-        for day in range(days):
-            for hour in range(1, hours):
-                d = week * 7 + day
-                c.execute(
-                    "INSERT INTO logs (timestamp, message) VALUES (?, ?)",
-                    (
-                        (
-                            datetime.now() - timedelta(days=d, hours=hours - hour)
-                        ).isoformat(),
-                        f"Worked for {hour} hours",
-                    ),
-                )
-                conn.commit()
-    conn.close()
-
-
-def log_entry(message):
+def log_entry(message, category):
     now = datetime.now()
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute(
-        "INSERT INTO logs (timestamp, message) VALUES (?, ?)",
-        (now.isoformat(), message),
+        "INSERT INTO logs (timestamp, category, message) VALUES (?, ?, ?)",
+        (now.isoformat(), category, message),
     )
     conn.commit()
     conn.close()
     print(f"[{now.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 
-def delete_entry(id_):
+def undo_last_entry():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute("DELETE FROM logs WHERE id = ?", (id_,))
-    conn.commit()
-    conn.close()
+    c.execute("SELECT * FROM logs ORDER BY id DESC LIMIT 1")
+    last_entry = c.fetchone()
+    if last_entry:
+        c.execute("DELETE FROM logs WHERE id = ?", (last_entry[0],))
+        conn.commit()
+        conn.close()
+        print(f"Deleted last entry: {last_entry[1]}: {last_entry[3]}")
+    else:
+        conn.close()
+        print("No logs to delete.")
 
 
 def clear_db():
@@ -62,6 +45,21 @@ def clear_db():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Task Logger")
-    parser.add_argument("message", type=str, help="The log message")
+    parser.add_argument("command", type=str, help="The command to execute")
+    parser.add_argument(
+        "--category",
+        type=str,
+        default="general",
+        help="The category of the log message",
+    )
+    parser.add_argument(
+        "--message",
+        type=str,
+        help="The log message",
+    )
     args = parser.parse_args()
-    log_entry(args.message)
+
+    if args.command == "log":
+        log_entry(args.message, args.category)
+    elif args.command == "undo":
+        undo_last_entry()
