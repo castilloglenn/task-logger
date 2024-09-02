@@ -9,7 +9,16 @@ def init_db():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute(
-        """CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, timestamp TEXT, message TEXT)"""
+        """
+        CREATE TABLE IF NOT EXISTS
+            logs
+            (
+                id INTEGER PRIMARY KEY,
+                timestamp TEXT,
+                category TEXT,
+                message TEXT
+            )
+        """
     )
     conn.commit()
     conn.close()
