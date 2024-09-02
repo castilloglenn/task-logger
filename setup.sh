@@ -12,20 +12,59 @@ __combine_args() {
     echo "$combined_string"
 }
 
-tl() {
+tgen() {
     if [ -z "$1" ]; then
-        echo "Usage: tl <task>"
+        echo "Usage: tgen <task>"
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py "$task"
+    python3 $script_dir/log.py log --message="$task"
 }
 
-tl_weeklyreport() {
+ttea() {
+    if [ -z "$1" ]; then
+        echo "Usage: ttea <task>"
+        return 1
+    fi
+    task=$(__combine_args "$@")
+    python3 $script_dir/log.py log --category="team" --message="$task"
+}
+
+tdcc() {
+    if [ -z "$1" ]; then
+        echo "Usage: tdcc <task>"
+        return 1
+    fi
+    task=$(__combine_args "$@")
+    python3 $script_dir/log.py log --category="dcc" --message="$task"
+}
+
+tsha() {
+    if [ -z "$1" ]; then
+        echo "Usage: tsha <task>"
+        return 1
+    fi
+    task=$(__combine_args "$@")
+    python3 $script_dir/log.py log --category="shaver" --message="$task"
+}
+
+tundo() {
+    python3 $script_dir/log.py undo
+}
+
+tdaily() {
+    if [ -z "$1" ]; then
+        python3 $script_dir/reports/daily.py
+    else
+        python3 $script_dir/reports/daily.py --category="$1"
+    fi
+}
+
+tweekly() {
     python3 $script_dir/reports/weekly.py
 }
 
-tl_monthlyreport() {
+tmonthly() {
     python3 $script_dir/reports/monthly.py
 }
 
