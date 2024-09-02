@@ -8,6 +8,10 @@ repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "..", "worklog.db")
 
 
+def create_list_of_logs(logs):
+    return "\n".join([f"- {log[3]}" for log in logs]) + "\n\n"
+
+
 def weekly_report():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -29,13 +33,29 @@ def weekly_report():
         )
     )
 
-    # Execute the query
+    # Query from different tables
     query = """
     SELECT * FROM logs
     WHERE timestamp BETWEEN ? AND ?
     """
     c.execute(query, (start_of_week_str, end_of_week_str))
     logs = c.fetchall()
+
+    general = []
+    team = []
+    dcc = []
+    shaver = []
+    for log in logs:
+        category = log[2]
+        if category == "general":
+            general.append(log)
+        elif category == "team":
+            team.append(log)
+        elif category == "dcc":
+            dcc.append(log)
+        elif category == "shaver":
+            shaver.append(log)
+
     if len(logs) == 0:
         print("No logs found for the current week.")
         return
@@ -44,12 +64,22 @@ def weekly_report():
     # Generate the report
     monday_of_week = (start_of_week + timedelta(days=1)).strftime(pretty_format)
     friday_of_week = (end_of_week - timedelta(days=1)).strftime(pretty_format)
-    header = f"*Weekly Report ({monday_of_week} - {friday_of_week})*\n"
-    logs_list = "\n".join([f"- {log[2]}" for log in logs])
-    report = header + logs_list
+    report = f"*Weekly Report ({monday_of_week} - {friday_of_week})*\n\n"
+    if len(dcc) > 0:
+        report += "*Disk Cassette Content Project*\n"
+        report += create_list_of_logs(dcc)
+    if len(shaver) > 0:
+        report += "*Shaver Project*\n"
+        report += create_list_of_logs(shaver)
+    if len(team) > 0:
+        report += "*Team*\n"
+        report += create_list_of_logs(team)
+    if len(general) > 0:
+        report += "*Personal*\n"
+        report += create_list_of_logs(general)
 
     # Display the report
-    print("\n" + "=" * 55)
+    print("=" * 55)
     print(report)
     print("=" * 55 + "\n")
 
