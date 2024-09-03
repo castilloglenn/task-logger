@@ -68,4 +68,5 @@ tmonthly() {
     python3 $script_dir/reports/monthly.py
 }
 
+python3 $script_dir/backup.py
 printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete. \033[1;90m(Location: $script_dir)\033[0m\n"
