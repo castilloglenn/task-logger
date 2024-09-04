@@ -57,11 +57,10 @@ def format_logs_for_google_sheets(logs):
     return "\n".join(formatted_logs)
 
 
-def daily_report(category=None):
+def daily_report(category, today):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
-    today = datetime.now().strftime("%Y-%m-%d")
     query = """
         SELECT * FROM logs
         WHERE DATE(timestamp) = DATE(?)
@@ -97,7 +96,25 @@ def daily_report(category=None):
 
 
 if __name__ == "__main__":
+    DATE_FMT = "%Y-%m-%d"
     parser = argparse.ArgumentParser(description="Daily Report")
-    parser.add_argument("--category", type=str, help="The category of the log message")
+    parser.add_argument(
+        "--category",
+        type=str,
+        default="",
+        help="The category of the log message",
+    )
+    parser.add_argument(
+        "--date",
+        type=str,
+        default=datetime.now().strftime(DATE_FMT),
+        help="The date of the log message",
+    )
     args = parser.parse_args()
-    daily_report(args.category)
+
+    try:
+        date_ = args.date
+        datetime.strptime(date_, DATE_FMT)
+        daily_report(args.category, date_)
+    except ValueError:
+        print("Invalid date format. Please use the format YYYY-MM-DD.")

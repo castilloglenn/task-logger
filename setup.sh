@@ -53,11 +53,40 @@ tundo() {
 }
 
 tdaily() {
-    if [ -z "$1" ]; then
-        python3 $script_dir/reports/daily.py
-    else
-        python3 $script_dir/reports/daily.py --category="$1"
+    local category=""
+    local date=""
+
+    while getopts ":c:d:" opt; do
+        case $opt in
+            c)
+                category=$OPTARG
+                ;;
+            d)
+                date=$OPTARG
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
+
+    # Provide default values if parameters are missing
+    if [ -z "$category" ]; then
+        category=""
     fi
+
+    if [ -z "$date" ]; then
+        date=$(date +"%Y-%m-%d")
+    fi
+
+    echo "Category: $category"
+    echo "Date: $date"
+
+
+    python3 $script_dir/reports/daily.py --category="$category" --date="$date"
 }
 
 tweekly() {
