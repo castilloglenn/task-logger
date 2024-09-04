@@ -75,7 +75,7 @@ def weekly_report():
         report += "*Team*\n"
         report += create_list_of_logs(team)
     if len(general) > 0:
-        report += "*Personal*\n"
+        report += "*Etc*\n"
         report += create_list_of_logs(general)
 
     # Display the report
