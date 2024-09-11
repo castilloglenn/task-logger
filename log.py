@@ -16,8 +16,18 @@ def log_entry(message, category):
         (now.isoformat(), category, message),
     )
     conn.commit()
+    print(f"{category.upper()} logs for {now.strftime('%Y-%m-%d')}:")
+
+    today = now.strftime("%Y-%m-%d")
+    c.execute(
+        "SELECT * FROM logs WHERE category = ? AND DATE(timestamp) = DATE(?)",
+        (category, today),
+    )
+    logs = c.fetchall()
+    for log in logs:
+        print(f"- {log[3]}")
+
     conn.close()
-    print(f"[{now.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 
 def undo_last_entry():
