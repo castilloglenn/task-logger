@@ -174,7 +174,7 @@ def monthly_report():
             end_time=task_end,
             estimated_duration=duration / 8,
             actual_duration=duration / 8,
-            description=log[2],
+            description=log[3],
             completion_grade="100.00%",
             estimated_hours=duration,
             actual_hours=duration,
