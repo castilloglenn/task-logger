@@ -45,6 +45,7 @@ def weekly_report():
     team = []
     dcc = []
     shaver = []
+    ushi = []
     for log in logs:
         category = log[2]
         if category == "general":
@@ -55,6 +56,8 @@ def weekly_report():
             dcc.append(log)
         elif category == "shaver":
             shaver.append(log)
+        elif category == "ushi":
+            ushi.append(log)
 
     if len(logs) == 0:
         print("No logs found for the current week.")
@@ -71,6 +74,9 @@ def weekly_report():
     if len(shaver) > 0:
         report += "*Shaver Project*\n"
         report += create_list_of_logs(shaver)
+    if len(ushi) > 0:
+        report += "*Ushipath Project*\n"
+        report += create_list_of_logs(ushi)
     if len(team) > 0:
         report += "*Team*\n"
         report += create_list_of_logs(team)

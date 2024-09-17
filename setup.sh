@@ -48,6 +48,15 @@ tsha() {
     python3 $script_dir/log.py log --category="shaver" --message="$task"
 }
 
+tushi() {
+    if [ -z "$1" ]; then
+        echo "Usage: tushi <task>"
+        return 1
+    fi
+    task=$(__combine_args "$@")
+    python3 $script_dir/log.py log --category="ushi" --message="$task"
+}
+
 tundo() {
     python3 $script_dir/log.py undo
 }

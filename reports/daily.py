@@ -67,6 +67,8 @@ def daily_report(category, today):
     """
     if category == "dcc":
         query += " AND category = 'dcc'"
+    elif category == "ushi":
+        query += " AND category = 'ushi'"
     elif category == "shaver":
         query += (
             " AND (category = 'shaver' OR category = 'team' OR category = 'general')"
