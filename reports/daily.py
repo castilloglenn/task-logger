@@ -86,7 +86,9 @@ def daily_report(category, today):
 
     print(f"Logs for {today} in {category_str}:")
     for log in logs:
-        print(f"- {log[3]}")
+        raw_date = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f")
+        formatted_date = raw_date.strftime("%I:%M %p")
+        print(f"{formatted_date} - {log[3]}")
 
     logs_list = [log[3] for log in logs]
     google_sheets_format = format_logs_for_google_sheets(logs_list)
