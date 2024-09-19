@@ -78,6 +78,7 @@ def daily_report(category, today):
 
     logs = c.fetchall()
 
+    print("=" * 80)
     category_str = category or "all categories"
     if len(logs) == 0:
         print(f"No logs found for {today} in {category_str}.")
@@ -89,11 +90,14 @@ def daily_report(category, today):
 
     logs_list = [log[3] for log in logs]
     google_sheets_format = format_logs_for_google_sheets(logs_list)
-    print("\nGoogle Sheets format:")
+
+    print("=" * 80)
+    print("Google Sheets format:")
     print(google_sheets_format)
+    print("=" * 80)
 
     pyperclip.copy(google_sheets_format)
-    print("\nGoogle Sheets format has been copied to clipboard. Press Cmd+V to paste.")
+    print("Google Sheets format has been copied to clipboard. Press Cmd+V to paste.")
     conn.close()
 
 

@@ -85,9 +85,9 @@ def weekly_report():
         report += create_list_of_logs(general)
 
     # Display the report
-    print("=" * 55)
-    print(report)
-    print("=" * 55 + "\n")
+    print("=" * 80)
+    print(report.strip())
+    print("=" * 80)
 
     # Copy the report to the clipboard
     pyperclip.copy(report)
