@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the directory of the current script
-script_dir=$(dirname "$0")
+task_logger_path=$(dirname "$0")
 
 __combine_args() {
     combined_string=""
@@ -18,7 +18,7 @@ tgen() {
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py log --message="$task"
+    python3 $task_logger_path/log.py log --message="$task"
 }
 
 ttea() {
@@ -27,7 +27,7 @@ ttea() {
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py log --category="team" --message="$task"
+    python3 $task_logger_path/log.py log --category="team" --message="$task"
 }
 
 tdcc() {
@@ -36,7 +36,7 @@ tdcc() {
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py log --category="dcc" --message="$task"
+    python3 $task_logger_path/log.py log --category="dcc" --message="$task"
 }
 
 tsha() {
@@ -45,7 +45,7 @@ tsha() {
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py log --category="shaver" --message="$task"
+    python3 $task_logger_path/log.py log --category="shaver" --message="$task"
 }
 
 tushi() {
@@ -54,11 +54,11 @@ tushi() {
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $script_dir/log.py log --category="ushi" --message="$task"
+    python3 $task_logger_path/log.py log --category="ushi" --message="$task"
 }
 
 tundo() {
-    python3 $script_dir/log.py undo
+    python3 $task_logger_path/log.py undo
 }
 
 tdaily() {
@@ -95,16 +95,16 @@ tdaily() {
     echo "Date: $date"
 
 
-    python3 $script_dir/reports/daily.py --category="$category" --date="$date"
+    python3 $task_logger_path/reports/daily.py --category="$category" --date="$date"
 }
 
 tweekly() {
-    python3 $script_dir/reports/weekly.py
+    python3 $task_logger_path/reports/weekly.py
 }
 
 tmonthly() {
-    python3 $script_dir/reports/monthly.py
+    python3 $task_logger_path/reports/monthly.py
 }
 
-python3 $script_dir/backup.py
-printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete. \033[1;90m(Location: $script_dir)\033[0m\n"
+python3 $task_logger_path/backup.py
+printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete. \033[1;90m(Location: $task_logger_path)\033[0m\n"
