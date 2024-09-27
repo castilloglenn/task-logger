@@ -94,9 +94,6 @@ def daily_report(category, today):
     google_sheets_format = format_logs_for_google_sheets(logs_list)
 
     print("=" * 80)
-    print("Google Sheets format:")
-    print(google_sheets_format)
-    print("=" * 80)
 
     pyperclip.copy(google_sheets_format)
     print("Google Sheets format has been copied to clipboard. Press Cmd+V to paste.")
