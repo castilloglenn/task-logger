@@ -5,6 +5,7 @@ from datetime import datetime
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "worklog.db")
+# db_path = os.path.join(repo_path, "worklog_test.db")
 
 
 def log_entry(message, category):

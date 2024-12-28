@@ -1,41 +1,42 @@
 import os
+import time
 import argparse
 import sqlite3
 from datetime import datetime
 
-import pyperclip
+import pyautogui
+
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "..", "worklog.db")
+# db_path = os.path.join(repo_path, "..", "worklog_test.db")
+
+WAIT_TIME = 3
 
 
-def format_logs_for_google_sheets(logs):
+def format_logs_for_auto_pasting(logs):
     num_logs = len(logs)
     if num_logs == 0:
-        return ""
+        print("No logs to paste.")
+        return None
 
     num_cells = 8
     formatted_logs = []
 
     if num_logs < num_cells:
-        # Calculate the repetition count for each log
         repetitions = [num_cells // num_logs] * num_logs
         extra_repeats = num_cells % num_logs
 
-        # Distribute the remaining cells among the first few logs
         for i in range(extra_repeats):
             repetitions[i] += 1
 
-        # Repeat the logs accordingly
         for i, count in enumerate(repetitions):
             formatted_logs.extend([logs[i]] * count)
 
     elif num_logs > num_cells:
-        # Merge logs to fit into 8 cells
         merged_logs = []
         log_index = 0
 
-        # Calculate how many logs to merge in the first few cells
         while len(merged_logs) < num_cells and log_index < num_logs:
             remaining_cells = num_cells - len(merged_logs)
             remaining_logs = num_logs - log_index
@@ -48,13 +49,24 @@ def format_logs_for_google_sheets(logs):
         formatted_logs = merged_logs[:num_cells]
 
     else:
-        # If the number of logs is exactly 8, just use them as is
         formatted_logs = logs
 
-    # Add the blank cell in the 4th position
-    formatted_logs.insert(3, "")
+    print("Move cursor to HRIS dailyy report and focus on 9-10 AM field.")
+    print(f"You have {WAIT_TIME} seconds to move the cursor.")
+    print("Press Ctrl+C to cancel.")
 
-    return "\n".join(formatted_logs)
+    t = WAIT_TIME
+    while t > 0:
+        print(f" {t}...", end="\r")
+        time.sleep(1)
+        t -= 1
+
+    for log in formatted_logs:
+        pyautogui.typewrite(log)
+        pyautogui.press("tab")
+    pyautogui.press("tab")
+
+    print("Done pasting logs.")
 
 
 def daily_report(category, today):
@@ -91,12 +103,10 @@ def daily_report(category, today):
         print(f"{formatted_date} - {log[2]} - {log[3]}")
 
     logs_list = [log[3] for log in logs]
-    google_sheets_format = format_logs_for_google_sheets(logs_list)
+    print("=" * 80, end="\n\n")
 
-    print("=" * 80)
+    format_logs_for_auto_pasting(logs_list)
 
-    pyperclip.copy(google_sheets_format)
-    print("Google Sheets format has been copied to clipboard. Press Cmd+V to paste.")
     conn.close()
 
 
