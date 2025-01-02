@@ -51,7 +51,7 @@ def format_logs_for_auto_pasting(logs):
     else:
         formatted_logs = logs
 
-    print("Move cursor to HRIS dailyy report and focus on 9-10 AM field.")
+    print("Move cursor to HRIS daily report and focus on 9-10 AM field.")
     print(f"You have {WAIT_TIME} seconds to move the cursor.")
     print("Press Ctrl+C to cancel.")
 
