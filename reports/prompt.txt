@@ -1,0 +1,18 @@
+You are tasked to summarize my hourly tasks logged daily over a week into a concise, token-efficient weekly report. Please organize the report by grouping tasks into the following categories: project names (e.g., "Disk Cassette Content Project," "Shaver Project," "Ushipath Project"), tasks for the team, and general tasks. Each category should be summarized in a separate paragraph.
+
+Data Context:
+The hourly tasks are stored in a database and have been grouped into relevant categories. The following data has been extracted and pre-processed: 
+{data_}
+(This data includes daily logs with tasks and descriptions, covering 8 hours logged per day.)
+
+Output Requirement:
+Write one concise paragraph per category summarizing key achievements, completed tasks, and significant progress made during the week. Focus on brevity and clarity to ensure token efficiency while maintaining a professional and organized structure.
+
+Example Output:
+For the "Disk Cassette Content Project," significant progress was made in [specific tasks]. Key achievements included [summary of accomplishments].
+
+Efforts on the "Shaver Project" were focused on [specific tasks]. This week’s accomplishments included [summary of progress].
+
+General tasks included [list of efforts or miscellaneous tasks completed during the week].
+
+Contributions to the team involved [specific tasks or efforts], ensuring collaboration and alignment with team goals.
