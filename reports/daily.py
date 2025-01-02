@@ -43,7 +43,7 @@ def format_logs_for_auto_pasting(logs):
             merge_count = max(1, remaining_logs // remaining_cells)
 
             merged_log = "\n".join(logs[log_index : log_index + merge_count])
-            merged_logs.append(f'"{merged_log}"')
+            merged_logs.append(merged_log)
             log_index += merge_count
 
         formatted_logs = merged_logs[:num_cells]
