@@ -1,7 +1,7 @@
-You are tasked to summarize my hourly tasks logged daily over a week into a concise, token-efficient weekly report. Please organize the report by grouping tasks into the following categories: project names (e.g., "Disk Cassette Content Project," "Shaver Project," "Ushipath Project"), tasks for the team, and general tasks. Each category should be summarized in a separate paragraph.
+You are tasked to summarize my hourly tasks logged daily over a week into a concise, token-efficient weekly report. Please organize the report by grouping tasks into the following categories: project names (e.g., "Disk Cassette Content Project," "Shaver Project," "Ushipath Project"), tasks for the team, and general tasks. Each category should be summarized in a separate paragraph. If a project does not have any logged data, simply omit it from the report, including small sections like general or team sections.
 
 Data Context:
-The hourly tasks are stored in a database and have been grouped into relevant categories. The following data has been extracted and pre-processed: 
+The hourly tasks are stored in a database and have been grouped into relevant categories. The following data has been extracted and pre-processed:
 {data_}
 (This data includes daily logs with tasks and descriptions, covering 8 hours logged per day.)
 
