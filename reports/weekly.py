@@ -59,7 +59,11 @@ def weekly_report():
     c = conn.cursor()
 
     today = datetime.now()
-    start_of_week = today - timedelta(days=today.weekday() + 1)
+    if today.weekday() == 5:
+        start_of_week = today
+    else:
+        start_of_week = today - timedelta(days=(today.weekday() + 2) % 7)
+
     end_of_week = start_of_week + timedelta(days=6)
 
     start_of_week_str = start_of_week.strftime("%Y-%m-%d 00:00:00")
