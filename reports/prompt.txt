@@ -9,11 +9,26 @@ The following data has been pre-processed and categorized:
 Output Requirement:
 Write one concise paragraph per category summarizing key achievements, completed tasks, and significant progress made during the week. Maintain a professional and organized tone, focusing on brevity and clarity. Avoid any reference to missing data or logs.
 
-Example Output:
-For the "Disk Cassette Content Project," significant progress was made in [specific tasks]. Key achievements included [summary of accomplishments].
+Markdown Output:
+The output can use very presentable "Markdown" syntax to enhance readability and organization. You have creative freedom to add features like headings, bullet points, or custom formatting (e.g., bold, italics, tables, or custom badges) to make the report visually appealing. However, ensure the style remains professional and suitable for work contexts. Do not use emojis.
 
-Efforts on the "Shaver Project" were focused on [specific tasks]. This week’s accomplishments included [summary of progress].
+Example Output:
+
+Disk Cassette Content Project
+
+Significant progress was made in [specific tasks].
+
+Key achievements included [summary of accomplishments].
+
+Shaver Project
+
+Efforts this week focused on [specific tasks].
+
+This week’s accomplishments included [summary of progress].
+
+Team Contributions
 
 Contributions to the team involved [specific tasks or efforts], ensuring collaboration and alignment with team goals.
 
 If only one or two categories have relevant information, include only those and ensure the report reads naturally.
+
