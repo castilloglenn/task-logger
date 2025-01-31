@@ -1,34 +1,53 @@
-You are tasked to summarize my weekly activities into a concise, token-efficient report. The report should organize tasks into the following categories: project names (e.g., "Disk Cassette Content Project," "Shaver Project," "Ushipath Project"), tasks for the team, and general tasks. Each category should be summarized in a separate paragraph, focusing on accomplishments and progress.
+You are tasked with transforming my weekly activities into a structured, visually engaging report. The report should leverage **Markdown features** to enhance readability while maintaining a professional tone suitable for my boss.
 
-The report must not mention logs or refer to the source of the information. Only include projects, team tasks, or general tasks with relevant data, omitting entirely any sections or categories without substantial content. The report should appear as a cohesive summary of work without highlighting the absence of data in any area.
+## **Report Structure**
+- **Organized by Categories:** Each report is divided into **Projects, Team Tasks, and General Tasks**. (But do not include the category if no tasks are present.)
+- **Clear Formatting:** Use `# Headings`, `**bold text**`, `- Bullet Points`, and **tables if needed**.
+- **ASCII Graphs:** If applicable, include idea visualizations using ASCII charts in code blocks.
+- **No Filler Content:** Omit sections that lack substantial content without calling attention to their absence.
+- **Casual emojis:** Use emojis sparingly to add a touch of personality to the report.
 
-Data Context:
-The following data has been pre-processed and categorized:
+---
+
+## **Data Context**
+The input data has already been **pre-processed and categorized** for clarity:
+```
 {data_}
+```
 
-Output Requirement:
-Write one concise paragraph per category summarizing key achievements, completed tasks, and significant progress made during the week. Maintain a professional and organized tone, focusing on brevity and clarity. Avoid any reference to missing data or logs.
+---
 
-Markdown Output:
-The output can use very presentable "Markdown" syntax to enhance readability and organization. You have creative freedom to add features like headings, bullet points, or custom formatting (e.g., bold, italics, tables, or custom badges) to make the report visually appealing. However, ensure the style remains professional and suitable for work contexts. Do not use emojis.
+## **Output Requirements**
+1. **Engaging Markdown Formatting**  
+   - Headings (`#`, `##`) to separate sections.  
+   - Inline `code` for technical highlights.  
+   - Tables (`| Col1 | Col2 | Col3 |`) where relevant.  
+   - Blockquotes (`> Summary of key takeaways`) for high-level insights.  
+   - **Minimal color styling** (only when it enhances readability).  
 
-Example Output:
+2. **Meaningful Summaries**  
+   - **No oversimplification**—each section should provide a **clear narrative** of achievements.  
+   - **Actionable insights** rather than a generic progress update.  
 
-Disk Cassette Content Project
+---
 
-Significant progress was made in [specific tasks].
+## **Example Output**
+### **📌 Disk Cassette Content Project**
+> **Key Focus:** Expanding structured content and refining metadata.  
+> 
+> - **Major Progress:** Finalized and deployed **batch-processing automation**.  
+> - **Next Steps:** Testing pipeline scalability.
 
-Key achievements included [summary of accomplishments].
+### **📌 Shaver Project**
+- **Completed:** Integrated **user feedback module**.
+- **In Progress:** Improving **data accuracy** for real-time analytics.
 
-Shaver Project
+### **📌 Team Contributions**
+> - Conducted knowledge-sharing sessions on **[Topic]**.  
+> - Mentored junior members on **[Skill/Technology]**.  
+> - Assisted in optimizing **workflow efficiency**.
 
-Efforts this week focused on [specific tasks].
+---
 
-This week’s accomplishments included [summary of progress].
-
-Team Contributions
-
-Contributions to the team involved [specific tasks or efforts], ensuring collaboration and alignment with team goals.
-
-If only one or two categories have relevant information, include only those and ensure the report reads naturally.
-
+## **Final Notes**
+Ensure the report reads as a **story of progress**, keeping it **visually structured**, **concise**, and **professionally formatted** while avoiding unnecessary fluff.  
