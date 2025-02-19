@@ -12,49 +12,31 @@ __combine_args() {
     echo "$combined_string"
 }
 
-tgen() {
+lg() {
     if [ -z "$1" ]; then
-        echo "Usage: tgen <task>"
+        echo "Usage: lg <task>"
         return 1
     fi
     task=$(__combine_args "$@")
     python3 $task_logger_path/log.py log --message="$task"
 }
 
-ttea() {
+lt() {
     if [ -z "$1" ]; then
-        echo "Usage: ttea <task>"
+        echo "Usage: lt <task>"
         return 1
     fi
     task=$(__combine_args "$@")
     python3 $task_logger_path/log.py log --category="team" --message="$task"
 }
 
-tdcc() {
+lp() {
     if [ -z "$1" ]; then
-        echo "Usage: tdcc <task>"
+        echo "Usage: lp <project>"
         return 1
     fi
     task=$(__combine_args "$@")
-    python3 $task_logger_path/log.py log --category="dcc" --message="$task"
-}
-
-tsha() {
-    if [ -z "$1" ]; then
-        echo "Usage: tsha <task>"
-        return 1
-    fi
-    task=$(__combine_args "$@")
-    python3 $task_logger_path/log.py log --category="shaver" --message="$task"
-}
-
-tushi() {
-    if [ -z "$1" ]; then
-        echo "Usage: tushi <task>"
-        return 1
-    fi
-    task=$(__combine_args "$@")
-    python3 $task_logger_path/log.py log --category="ushi" --message="$task"
+    python3 $task_logger_path/log.py log --category="project" --message="$task"
 }
 
 tundo() {
