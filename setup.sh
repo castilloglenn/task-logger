@@ -44,6 +44,7 @@ tundo() {
 }
 
 tdaily() {
+    # tdaily -d 2025-03-10
     local category=""
     local date=""
 
