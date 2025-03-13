@@ -65,6 +65,7 @@ def format_logs_for_auto_pasting(logs):
         pyautogui.typewrite(log)
         pyautogui.press("tab")
     pyautogui.press("tab")
+    pyautogui.press("tab")
 
     print("Done pasting logs.")
 
