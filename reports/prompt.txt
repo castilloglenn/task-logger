@@ -1,53 +1,8 @@
-You are tasked with transforming my weekly activities into a structured, visually engaging report. The report should leverage **Markdown features** to enhance readability while maintaining a professional tone suitable for my boss.
+Use markdown to transform this data into a non-technical person readable report
+Do not add facts that is not in the data provided
 
-## **Report Structure**
-- **Organized by Categories:** Each report is divided into **Projects, Team Tasks, and General Tasks**. (But do not include the category if no tasks are present.)
-- **Clear Formatting:** Use `# Headings`, `**bold text**`, `- Bullet Points`, and **tables if needed**.
-- **ASCII Graphs:** If applicable, include idea visualizations using ASCII charts in code blocks.
-- **No Filler Content:** Omit sections that lack substantial content without calling attention to their absence.
-- **Casual emojis:** Use emojis sparingly to add a touch of personality to the report.
+Make it short, clear and precise
+No title needed
+Make the markdown in a list format
 
----
-
-## **Data Context**
-The input data has already been **pre-processed and categorized** for clarity:
-```
 {data_}
-```
-
----
-
-## **Output Requirements**
-1. **Engaging Markdown Formatting**  
-   - Headings (`#`, `##`) to separate sections.  
-   - Inline `code` for technical highlights.  
-   - Tables (`| Col1 | Col2 | Col3 |`) where relevant.  
-   - Blockquotes (`> Summary of key takeaways`) for high-level insights.  
-   - **Minimal color styling** (only when it enhances readability).  
-
-2. **Meaningful Summaries**  
-   - **No oversimplification**—each section should provide a **clear narrative** of achievements.  
-   - **Actionable insights** rather than a generic progress update.  
-
----
-
-## **Example Output**
-### **📌 Disk Cassette Content Project**
-> **Key Focus:** Expanding structured content and refining metadata.  
-> 
-> - **Major Progress:** Finalized and deployed **batch-processing automation**.  
-> - **Next Steps:** Testing pipeline scalability.
-
-### **📌 Shaver Project**
-- **Completed:** Integrated **user feedback module**.
-- **In Progress:** Improving **data accuracy** for real-time analytics.
-
-### **📌 Team Contributions**
-> - Conducted knowledge-sharing sessions on **[Topic]**.  
-> - Mentored junior members on **[Skill/Technology]**.  
-> - Assisted in optimizing **workflow efficiency**.
-
----
-
-## **Final Notes**
-Ensure the report reads as a **story of progress**, keeping it **visually structured**, **concise**, and **professionally formatted** while avoiding unnecessary fluff.  
