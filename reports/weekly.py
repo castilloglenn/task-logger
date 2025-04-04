@@ -36,24 +36,6 @@ def summarize(data):
         return f"An error occurred: {e}", 500
 
 
-def create_list_of_logs(logs):
-    formatted_logs = []
-    current_day = None
-
-    for log in logs:
-        log_date = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f").strftime("%A")
-        log_entry = f"{log[3]}"
-
-        if log_date != current_day:
-            formatted_logs.append(f"{log_date}:")
-            current_day = log_date
-
-        formatted_logs.append(log_entry)
-
-    formatted_log_output = "\n".join(formatted_logs) + "\n\n"
-    return formatted_log_output
-
-
 def weekly_report():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -64,10 +46,10 @@ def weekly_report():
     else:
         start_of_week = today - timedelta(days=(today.weekday() + 2) % 7)
 
-    end_of_week = start_of_week + timedelta(days=6)
+    end_of_week = start_of_week + timedelta(days=7)
 
     start_of_week_str = start_of_week.strftime("%Y-%m-%d 00:00:00")
-    end_of_week_str = end_of_week.strftime("%Y-%m-%d 23:59:59")
+    end_of_week_str = end_of_week.strftime("%Y-%m-%d 00:00:00")
 
     query = """
     SELECT * FROM logs
@@ -80,39 +62,16 @@ def weekly_report():
         print("No logs found for the current week.")
         conn.close()
         return
-
-    grouped_logs = {
-        "dcc": [],
-        "shaver": [],
-        "ushipath": [],
-        "team": [],
-        "general": [],
-    }
-
-    for log in logs:
-        category = log[2].lower()
-        if category in grouped_logs:
-            grouped_logs[category].append(log)
-        else:
-            grouped_logs["general"].append(log)
-
     conn.close()
 
-    # Format data for summarization
-    data_for_summary = ""
-    for category, category_name in [
-        ("dcc", "Disk Cassette Content Project"),
-        ("shaver", "Shaver Project"),
-        ("ushipath", "Ushipath Project"),
-        ("team", "Team"),
-        ("general", "General Tasks"),
-    ]:
-        if len(grouped_logs[category]) > 0:
-            data_for_summary += f"#{category_name}\n"
-            data_for_summary += create_list_of_logs(grouped_logs[category])
+    formatted_logs = []
+    for log in logs:
+        raw_date = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f")
+        week_day = raw_date.strftime("%A")
+        formatted_logs.append(f"{week_day} - {log[3]}")
+    formatted_logs = "\n".join(formatted_logs)
 
-    # Send to summarizer
-    summary, status_code = summarize(data_for_summary.strip())
+    summary, status_code = summarize(formatted_logs)
     if status_code != 200:
         print("Error generating summary:", summary)
         return
