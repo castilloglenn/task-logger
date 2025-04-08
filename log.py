@@ -25,8 +25,17 @@ def log_entry(message, category):
         (category, today),
     )
     logs = c.fetchall()
+
+    # For displaying, get the total logs count and only show the latest max of 3 logs
+    logs_count = len(logs)
+    if logs_count > 3:
+        logs = logs[-3:]
+    print(f"Total logs: {logs_count}, the following is the latest three logs:")
     for log in logs:
-        print(f"- {log[3]}")
+        formatted_time = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f").strftime(
+            "%I:%M:%S %p"
+        )
+        print(f"- [{formatted_time}] {log[3]}")
 
     conn.close()
 
