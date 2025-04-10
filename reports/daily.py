@@ -91,21 +91,14 @@ def daily_report(category, today):
 
     logs = c.fetchall()
 
-    print("=" * 80)
     category_str = category or "all categories"
     if len(logs) == 0:
         print(f"No logs found for {today} in {category_str}.")
         return
 
-    print(f"Logs for {today} in {category_str}:")
-    for log in logs:
-        raw_date = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f")
-        formatted_date = raw_date.strftime("%I:%M %p")
-        print(f"{formatted_date} - {log[2]} - {log[3]}")
+    print(f"Logs have a total of {len(logs)} entries.")
 
     logs_list = [log[3] for log in logs]
-    print("=" * 80, end="\n\n")
-
     format_logs_for_auto_pasting(logs_list)
 
     conn.close()
