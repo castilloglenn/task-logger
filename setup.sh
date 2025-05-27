@@ -12,23 +12,23 @@ __combine_args() {
     echo "$combined_string"
 }
 
-lg() {
-    if [ -z "$1" ]; then
-        echo "Usage: lg <task>"
-        return 1
-    fi
-    task=$(__combine_args "$@")
-    python3 $task_logger_path/log.py log --message="$task"
-}
+# lg() {
+#     if [ -z "$1" ]; then
+#         echo "Usage: lg <task>"
+#         return 1
+#     fi
+#     task=$(__combine_args "$@")
+#     python3 $task_logger_path/log.py log --message="$task"
+# }
 
-lt() {
-    if [ -z "$1" ]; then
-        echo "Usage: lt <task>"
-        return 1
-    fi
-    task=$(__combine_args "$@")
-    python3 $task_logger_path/log.py log --category="team" --message="$task"
-}
+# lt() {
+#     if [ -z "$1" ]; then
+#         echo "Usage: lt <task>"
+#         return 1
+#     fi
+#     task=$(__combine_args "$@")
+#     python3 $task_logger_path/log.py log --category="team" --message="$task"
+# }
 
 lp() {
     if [ -z "$1" ]; then
