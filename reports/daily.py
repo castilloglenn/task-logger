@@ -5,6 +5,7 @@ import sqlite3
 from datetime import datetime
 
 import pyautogui
+import pyperclip
 
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
@@ -62,7 +63,12 @@ def format_logs_for_auto_pasting(logs):
         t -= 1
 
     for log in formatted_logs:
-        pyautogui.typewrite(log)
+        pyperclip.copy(log)
+
+        pyautogui.keyDown("command")
+        pyautogui.press("v")
+        pyautogui.keyUp("command")
+
         pyautogui.press("tab")
     pyautogui.press("tab")
     pyautogui.press("tab")
