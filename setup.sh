@@ -37,6 +37,9 @@ lp() {
     fi
     task=$(__combine_args "$@")
     python3 $task_logger_path/log.py log --category="project" --message="$task"
+
+    # This requires the other repo shell-scripts to be set up
+    commit $task
 }
 
 tundo() {
