@@ -3,44 +3,16 @@ import sqlite3
 from datetime import datetime, timedelta
 
 import pyperclip
-import google.generativeai as genai
-from dotenv import load_dotenv
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "..", "worklog.db")
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(BASE_DIR, "..", ".env"))
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
-
-
-def summarize(data):
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    prompt_format = ""
-    prompt_path = os.path.join(BASE_DIR, "prompt.txt")
-    with open(prompt_path, "r", encoding="utf-8") as file:
-        prompt_format = file.read()
-    if not prompt_format:
-        return "Error: Prompt format not found.", 500
-
-    try:
-        prompt = prompt_format.format(data_=data)
-        response = model.generate_content(prompt)
-        text = response.text.strip()
-        separator = "=" * 80
-        print(f"GENERATED SUMMARY\n{separator}\n{text}\n{separator}\n")
-        return response.text, 200
-    except Exception as e:
-        return f"An error occurred: {e}", 500
 
 
 def weekly_report():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
-    today = datetime.now()
+    today = datetime.now() - timedelta(days=1)
     if today.weekday() == 5:
         start_of_week = today
     else:
@@ -64,20 +36,46 @@ def weekly_report():
         return
     conn.close()
 
-    formatted_logs = []
+    # Group logs by day
+    logs_by_day = {}
     for log in logs:
         raw_date = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f")
-        week_day = raw_date.strftime("%A")
-        formatted_logs.append(f"{week_day} - {log[3]}")
+        day_key = raw_date.date()
+        if day_key not in logs_by_day:
+            logs_by_day[day_key] = []
+        logs_by_day[day_key].append(log[3])
+
+    # Format the report
+    formatted_logs = []
+    formatted_logs.append(
+        "Hello everyone! I'd like to share my weekly task summary report!"
+    )
+
+    current_date = start_of_week.date()
+    while current_date < end_of_week.date():
+        # Skip Saturday and Sunday entirely if no logs exist for those days
+        if current_date.weekday() in (5, 6) and current_date not in logs_by_day:
+            current_date += timedelta(days=1)
+            continue
+
+        week_day = current_date.strftime("%A")
+        formatted_logs.append(f"\nFor {week_day}:")
+
+        if current_date in logs_by_day:
+            for task in logs_by_day[current_date]:
+                formatted_logs.append(f"  - {task}")
+        else:
+            formatted_logs.append("  - Continued working on several projects")
+
+        current_date += timedelta(days=1)
+
+    formatted_logs.append(
+        "\nThat's all for this week! Looking forward to another productive week ahead. Thank you! 🙇🏻"
+    )
     formatted_logs = "\n".join(formatted_logs)
 
-    summary, status_code = summarize(formatted_logs)
-    if status_code != 200:
-        print("Error generating summary:", summary)
-        return
-
-    pyperclip.copy(summary.strip())
-    print("Summarized report copied to clipboard (use Cmd+V to paste)")
+    pyperclip.copy(formatted_logs.strip())
+    print("Formatted report copied to clipboard (use Cmd+V to paste)")
 
 
 if __name__ == "__main__":
