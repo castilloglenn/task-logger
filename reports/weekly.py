@@ -65,7 +65,12 @@ def weekly_report():
             for task in logs_by_day[current_date]:
                 formatted_logs.append(f"  - {task}")
         else:
-            formatted_logs.append("  - Continued working on several projects")
+            default_logs = [
+                "  - Continued working on several projects",
+                "  - Code review, mentorship, and architecture planning",
+                "  - Team meetings and collaboration",
+            ]
+            formatted_logs.extend(default_logs)
 
         current_date += timedelta(days=1)
 
