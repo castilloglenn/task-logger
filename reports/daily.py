@@ -15,7 +15,7 @@ db_path = os.path.join(repo_path, "..", "worklog.db")
 WAIT_TIME = 3
 
 
-def format_logs_for_auto_pasting(logs):
+def format_logs_for_auto_pasting(logs, show_only=False):
     num_logs = len(logs)
     if num_logs == 0:
         print("No logs to paste.")
@@ -52,6 +52,23 @@ def format_logs_for_auto_pasting(logs):
     else:
         formatted_logs = logs
 
+    if show_only:
+        time_slots = [
+            "9:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "1:00PM-2:00PM",
+            "2:00PM-3:00PM",
+            "3:00PM-4:00PM",
+            "4:00PM-5:00PM",
+            "5:00PM-6:00PM",
+        ]
+        print()
+        for i, log in enumerate(formatted_logs, start=0):
+            if i < len(time_slots):
+                print(f"{time_slots[i]}\n{log}\n")
+        return
+
     print("Move cursor to HRIS daily report and focus on 9-10 AM field.")
     print(f"You have {WAIT_TIME} seconds to move the cursor.")
     print("Press Ctrl+C to cancel.")
@@ -76,7 +93,7 @@ def format_logs_for_auto_pasting(logs):
     print("Done pasting logs.")
 
 
-def daily_report(category, today):
+def daily_report(category, today, show_only=False):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
@@ -92,22 +109,22 @@ def daily_report(category, today):
         query += (
             " AND (category = 'shaver' OR category = 'team' OR category = 'general')"
         )
+    try:
+        c.execute(query, (today,))
 
-    c.execute(query, (today,))
+        logs = c.fetchall()
 
-    logs = c.fetchall()
+        category_str = category or "all categories"
+        if len(logs) == 0:
+            print(f"No logs found for {today} in {category_str}.")
+            return
 
-    category_str = category or "all categories"
-    if len(logs) == 0:
-        print(f"No logs found for {today} in {category_str}.")
-        return
+        print(f"Logs have a total of {len(logs)} entries.")
 
-    print(f"Logs have a total of {len(logs)} entries.")
-
-    logs_list = [log[3] for log in logs]
-    format_logs_for_auto_pasting(logs_list)
-
-    conn.close()
+        logs_list = [log[3] for log in logs]
+        format_logs_for_auto_pasting(logs_list, show_only)
+    finally:
+        conn.close()
 
 
 if __name__ == "__main__":
@@ -125,11 +142,16 @@ if __name__ == "__main__":
         default=datetime.now().strftime(DATE_FMT),
         help="The date of the log message",
     )
+    parser.add_argument(
+        "--show-only",
+        action="store_true",
+        help="Show the formatted logs without auto-pasting",
+    )
     args = parser.parse_args()
 
     try:
         date_ = args.date
         datetime.strptime(date_, DATE_FMT)
-        daily_report(args.category, date_)
+        daily_report(args.category, date_, args.show_only)
     except ValueError:
         print("Invalid date format. Please use the format YYYY-MM-DD.")
