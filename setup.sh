@@ -47,6 +47,11 @@ tundo() {
 }
 
 tdaily() {
+    if [ "$1" = "show" ]; then
+        python3 $task_logger_path/reports/daily.py --show-only
+        return 0
+    fi
+
     # tdaily -d 2025-03-10
     local category=""
     local date=""
