@@ -79,18 +79,39 @@ tdaily() {
     fi
 
     if [ -z "$date" ]; then
-        date=$(date +"%Y-%m-%d")
+        date=$(date +"%Y/%m/%d")
     fi
 
     echo "Category: $category"
     echo "Date: $date"
 
-
     python3 $task_logger_path/reports/daily.py --category="$category" --date="$date"
 }
 
 tweekly() {
-    python3 $task_logger_path/reports/weekly.py
+    local date=""
+
+    while getopts ":d:" opt; do
+        case $opt in
+            d)
+                date=$OPTARG
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
+
+    if [ -z "$date" ]; then
+        date=$(date +"%Y/%m/%d")
+    fi
+
+    echo "Date: $date"
+
+    python3 $task_logger_path/reports/weekly.py --date="$date"
 }
 
 tmonthly() {
