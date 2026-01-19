@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import argparse
 from datetime import datetime, timedelta
 
 import pyperclip
@@ -8,11 +9,11 @@ repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "..", "worklog.db")
 
 
-def weekly_report():
+def weekly_report(override_today=None):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
-    today = datetime.now() - timedelta(days=1)
+    today = override_today or datetime.now() - timedelta(days=1)
     if today.weekday() == 5:
         start_of_week = today
     else:
@@ -84,4 +85,17 @@ def weekly_report():
 
 
 if __name__ == "__main__":
-    weekly_report()
+    parser = argparse.ArgumentParser(description="Weekly Report")
+    parser.add_argument(
+        "--date",
+        type=str,
+        default=None,
+        help="The date for the weekly report (format: YYYY/MM/DD)",
+    )
+    args = parser.parse_args()
+
+    override_today = None
+    if args.date:
+        override_today = datetime.strptime(args.date, "%Y/%m/%d")
+
+    weekly_report(override_today)
