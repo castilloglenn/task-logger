@@ -110,7 +110,7 @@ def daily_report(category, today, show_only=False):
             " AND (category = 'shaver' OR category = 'team' OR category = 'general')"
         )
     try:
-        c.execute(query, (today,))
+        c.execute(query, (today.replace("/", "-"),))
 
         logs = c.fetchall()
 
@@ -128,7 +128,7 @@ def daily_report(category, today, show_only=False):
 
 
 if __name__ == "__main__":
-    DATE_FMT = "%Y-%m-%d"
+    DATE_FMT = "%Y/%m/%d"
     parser = argparse.ArgumentParser(description="Daily Report")
     parser.add_argument(
         "--category",
