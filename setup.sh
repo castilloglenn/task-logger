@@ -119,4 +119,3 @@ tmonthly() {
 }
 
 python3 $task_logger_path/backup.py
-printf "\033[1;32m[SUCCESS]\033[0m Task Logger setup complete. \033[1;90m(Location: $task_logger_path)\033[0m\n"
