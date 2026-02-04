@@ -5,7 +5,6 @@ from datetime import datetime
 
 repo_path = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(repo_path, "worklog.db")
-# db_path = os.path.join(repo_path, "worklog_test.db")
 
 
 def log_entry(message, category):
@@ -17,27 +16,8 @@ def log_entry(message, category):
         (now.isoformat(), category, message),
     )
     conn.commit()
-    print(f"{category.upper()} logs for {now.strftime('%Y-%m-%d')}:")
-
-    today = now.strftime("%Y-%m-%d")
-    c.execute(
-        "SELECT * FROM logs WHERE category = ? AND DATE(timestamp) = DATE(?)",
-        (category, today),
-    )
-    logs = c.fetchall()
-
-    # For displaying, get the total logs count and only show the latest max of 3 logs
-    logs_count = len(logs)
-    if logs_count > 3:
-        logs = logs[-3:]
-    print(f"Total logs: {logs_count}, the following is the latest three logs:")
-    for log in logs:
-        formatted_time = datetime.strptime(log[1], "%Y-%m-%dT%H:%M:%S.%f").strftime(
-            "%I:%M:%S %p"
-        )
-        print(f"- [{formatted_time}] {log[3]}")
-
     conn.close()
+    print(f"\033[92mLog entry added to '\033[94m{category}\033[92m'.\033[0m")
 
 
 def undo_last_entry():
@@ -48,11 +28,10 @@ def undo_last_entry():
     if last_entry:
         c.execute("DELETE FROM logs WHERE id = ?", (last_entry[0],))
         conn.commit()
-        conn.close()
-        print(f"Deleted last entry: {last_entry[1]}: {last_entry[3]}")
+        print("Last log entry deleted.")
     else:
-        conn.close()
         print("No logs to delete.")
+    conn.close()
 
 
 def clear_db():
