@@ -12,34 +12,24 @@ __combine_args() {
     echo "$combined_string"
 }
 
-# lg() {
-#     if [ -z "$1" ]; then
-#         echo "Usage: lg <task>"
-#         return 1
-#     fi
-#     task=$(__combine_args "$@")
-#     python3 $task_logger_path/log.py log --message="$task"
-# }
-
-# lt() {
-#     if [ -z "$1" ]; then
-#         echo "Usage: lt <task>"
-#         return 1
-#     fi
-#     task=$(__combine_args "$@")
-#     python3 $task_logger_path/log.py log --category="team" --message="$task"
-# }
-
 lp() {
     if [ -z "$1" ]; then
         echo "Usage: lp <project>"
         return 1
     fi
     task=$(__combine_args "$@")
+
     python3 $task_logger_path/log.py log --category="project" --message="$task"
 
-    # This requires the other repo shell-scripts to be set up
-    commit $task
+    cd /Users/hipe/documents/personal/commit-history
+
+    git add .
+
+    git commit -m "$task" >/dev/null 2>&1
+
+    git reset HEAD~1
+
+    cd - >/dev/null 2>&1
 }
 
 tundo() {
