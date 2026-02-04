@@ -28,7 +28,7 @@ def undo_last_entry():
     if last_entry:
         c.execute("DELETE FROM logs WHERE id = ?", (last_entry[0],))
         conn.commit()
-        print("Last log entry deleted.")
+        print("\033[91mLast log entry deleted.\033[0m")
     else:
         print("No logs to delete.")
     conn.close()
