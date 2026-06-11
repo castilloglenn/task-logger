@@ -21,7 +21,7 @@ lp() {
 
     python3 $task_logger_path/log.py log --category="project" --message="$task"
 
-    cd /Users/hipe/documents/personal/commit-history
+    cd /Users/zen/documents/personal/commit-history
 
     git add .
 

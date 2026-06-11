@@ -1,4 +1,23 @@
 {
     "python.analysis.typeCheckingMode": "off",
-    "python.REPL.enableREPLSmartSend": false
+    "python.REPL.enableREPLSmartSend": false,
+    "workbench.colorCustomizations": {
+        "editor.selectionBackground": "#00b7ff32",
+        "editorLineNumber.activeForeground": "#fff700",
+        "editor.findMatchHighlightBackground": "#fdf62b32",
+        "terminal.selectionBackground": "#fff700",
+        "[Hyper Term Black]": {
+            "editor.background": "#0f0f0f",
+            "sideBarSectionHeader.background": "#0f1115",
+            "sideBar.background": "#000206",
+            "editor.findMatchHighlightBackground": "#fdf62b32",
+            "terminal.background": "#000000",
+            "editor.selectionBackground": "#00b7ff32",
+            "editorLineNumber.activeForeground": "#ffd900ca",
+            "editorCursor.foreground": "#ffffff"
+        },
+        "[GitHub Sharp Dark]": {
+            "editor.background": "#181818"
+        }
+    }
 }
