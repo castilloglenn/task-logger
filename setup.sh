@@ -19,6 +19,11 @@ lp() {
     fi
     task=$(__combine_args "$@")
 
+    # If GitHub copies stop working, restore the shared hook path with:
+    # git config --global core.hooksPath ~/.git-hooks
+    # chmod +x ~/.git-hooks/post-commit
+    # git -C /Users/zen/Documents/personal/commit-history config --unset core.hooksPath
+
     python3 $task_logger_path/log.py log --category="project" --message="$task"
 
     cd /Users/zen/documents/personal/commit-history
