@@ -32,7 +32,7 @@ lp() {
 
     git commit -m "$task" >/dev/null 2>&1
 
-    git reset HEAD~1
+    git reset --quiet HEAD~1
 
     cd - >/dev/null 2>&1
 }
